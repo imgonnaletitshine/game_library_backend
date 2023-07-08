@@ -6,34 +6,23 @@ class GamesController < ApplicationController
   end
 
   def index
-    limit = params[:per_page]
-    offset = (params[:page].to_i - 1) * limit
+    limit = params.fetch(:per_page, DEFAULT_PER_PAGE).to_i
+    page = params.fetch(:page, 1).to_i
+    offset = (page - 1) * limit
     games = Game.limit(limit).offset(offset)
-    games_json = games.map do |game|
-      {
-        id: game.id,
-        title: game.title,
-        truncatedDescription: game.description.truncate(100),
-      }
-    end
+    games_json = games.map &:as_json_for_list
     render json: { games: games_json }
   end
 
   def search
     games = Game.search(params.require :q)
-    games_json = games.map do |game|
-      {
-        id: game.id,
-        title: game.title,
-        truncatedDescription: game.description.truncate(100),
-      }
-    end
+    games_json = games.map &:as_json_for_list
     render json: { games: games_json }
   end
 
   def show
     game = Game.find params[:id]
-    render json: { game: game.as_json(only: %i[id title description min_age max_age min_duration max_duration]) }
+    render json: { game: game.as_json }
   end
 
   private

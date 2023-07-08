@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+    DEFAULT_SEARCH_RESULT_COUNT = 3
+
     validates :title, presence: true
     validates :description, presence: true
     validates :min_age, numericality: { only_integer: true }, allow_blank: true
@@ -8,7 +10,11 @@ class Game < ApplicationRecord
 
     has_and_belongs_to_many :categories
 
-    scope :where_or_null, -> (column, value) { where(column => value).or where column => nil }
+    scope :where_or_null, -> (conditions) {
+        conditions.inject all do |ret, (column, value)|
+            ret.where(column => value).or where column => nil
+        end
+    }
 
     scope :search, -> (params) {
         ret = all
@@ -23,13 +29,20 @@ class Game < ApplicationRecord
             ret = ret.joins(:categories).where(categories: {id: params[:categories]})
         end
 
-        ret = ret.where_or_null(min_age: ..params[:min_age]) if params.key? :min_age
-        ret = ret.where_or_null(max_age: params[:max_age]..) if params.key? :max_age
+        ret = ret.where_or_null(min_age: ..params[:min_age], max_age: params[:min_age]..) if params.key? :min_age
+        ret = ret.where_or_null(min_age: ..params[:max_age], max_age: params[:max_age]..) if params.key? :max_age
 
-        ret = ret.where_or_null(min_duration: params[:min_duration]..) if params.key? :min_duration
-        ret = ret.where_or_null(max_duration: ..params[:max_duration]) if params.key? :max_duration
+        ret = ret.where_or_null(min_duration: ..params[:duraton], max_duration: params[:duration]..) if params.key? :duration
 
-        limit = params.fetch :count, 3
+        limit = params.fetch :count, DEFAULT_SEARCH_RESULT_COUNT
         ret.order('RAND()').limit limit
     }
+
+    def as_json_for_list
+        {
+            id: id,
+            title: title,
+            truncatedDescription: description.truncate(100),
+        }
+    end
 end
