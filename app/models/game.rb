@@ -38,6 +38,14 @@ class Game < ApplicationRecord
         ret.order('RAND()').limit limit
     }
 
+    def category_names
+        categories.map &:name
+    end
+
+    def as_json **options
+        super.merge 'categories' => category_names
+    end
+
     def as_json_for_list
         {
             id: id,

@@ -6,6 +6,21 @@
 
 > TODO create swagger file
 
+### GET /categories/
+
+#### returns
+
+```json
+{
+    "categories": [
+        {
+            "id": "number",
+            "name": "string"
+        }
+    ]
+}
+```
+
 ### GET /games/
 
 #### query params
@@ -18,7 +33,7 @@
 {
     "games": [
         {
-            "id": "string",
+            "id": "number",
             "title": "string",
             "truncatedDescription": "string"
         }
@@ -35,7 +50,7 @@
 ```json
 {
     "game": {
-        "id": "string",
+        "id": "number",
         "title": "string",
         "description": "string",
         "categories": "string[]",
@@ -65,7 +80,7 @@
 {
     "games": [
         {
-            "id": "string",
+            "id": "number",
             "title": "string",
             "truncatedDescription": "string"
         }
