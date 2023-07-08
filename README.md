@@ -1,24 +1,86 @@
-# README
+# ImGonnaLetItShine / GameLibraryBackend
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+> API backend for the Game Library app
 
-Things you may want to cover:
+## Endopoints
 
-* Ruby version
+> TODO create swagger file
 
-* System dependencies
+### GET /games/
 
-* Configuration
+#### query params
+- page
+- per_page
 
-* Database creation
+#### returns
 
-* Database initialization
+```json
+{
+    "games": [
+        {
+            "id": "string",
+            "title": "string",
+            "truncatedDescription": "string"
+        }
+    ]
+}
+```
 
-* How to run the test suite
+### GET /games/:id
 
-* Services (job queues, cache servers, search engines, etc.)
+#### positional params
+- id
 
-* Deployment instructions
+#### returns
+```json
+{
+    "game": {
+        "id": "string",
+        "title": "string",
+        "description": "string",
+        "categories": "string[]",
+        "minAge": ["number", "null"],
+        "maxAge": ["number", "null"],
+        "minDuration": ["number", "null"],
+        "maxDuration": ["number", "null"],
+    }
+}
+```
 
-* ...
+### GET /games/search
+
+#### query params
+- search_term
+- categories
+- min_age
+- max_age
+- min_duration
+- max_duration
+- give_random
+- count
+
+#### returns
+
+```json
+{
+    "games": [
+        {
+            "id": "string",
+            "title": "string",
+            "truncatedDescription": "string"
+        }
+    ]
+}
+```
+
+### POST /games/
+
+#### body params
+
+- title
+- description
+- categories
+- min_age
+- max_age
+- min_duration
+- max_duration
