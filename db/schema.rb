@@ -10,11 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_07_08_063054) do
-  create_table "game_categories", charset: "utf8mb4", force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 2023_07_08_174740) do
+  create_table "categories", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "categories_games", id: false, charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.bigint "game_id", null: false
+    t.index ["game_id", "category_id"], name: "index_categories_games_on_game_id_and_category_id"
   end
 
   create_table "games", charset: "utf8mb4", force: :cascade do |t|

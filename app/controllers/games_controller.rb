@@ -42,7 +42,8 @@ class GamesController < ApplicationController
       params.require(:game).permit(
         :title, :description,
         :min_age, :max_age,
-        :min_duration, :max_duration
+        :min_duration, :max_duration,
+        category_ids: [],
       )
     end
 end
