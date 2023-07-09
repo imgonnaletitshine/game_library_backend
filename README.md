@@ -21,6 +21,13 @@
 }
 ```
 
+### POST /categories/
+
+#### body params
+
+- category
+  - name
+
 ### GET /games/
 
 #### query params
@@ -65,14 +72,15 @@
 ### GET /games/search
 
 #### query params
-- search_term
-- categories
-- min_age
-- max_age
-- min_duration
-- max_duration
-- give_random
-- count
+- q
+  - search_term
+  - categories
+  - min_age
+  - max_age
+  - min_duration
+  - max_duration
+  - give_random
+  - count
 
 #### returns
 
@@ -91,11 +99,11 @@
 ### POST /games/
 
 #### body params
-
-- title
-- description
-- categories
-- min_age
-- max_age
-- min_duration
-- max_duration
+- game
+  - title
+  - description
+  - categories
+  - min_age
+  - max_age
+  - min_duration
+  - max_duration

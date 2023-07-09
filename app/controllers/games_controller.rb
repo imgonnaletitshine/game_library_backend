@@ -23,6 +23,8 @@ class GamesController < ApplicationController
   def show
     game = Game.find params[:id]
     render json: { game: game.as_json }
+  rescue ActiveRecord::RecordNotFound
+    render status: 404
   end
 
   private
